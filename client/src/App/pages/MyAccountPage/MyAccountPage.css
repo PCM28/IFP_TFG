@@ -1,0 +1,31 @@
+.Content{
+    display: flex; /* Disposición en fila */
+    justify-items: center;
+    align-items: center;
+    justify-content: space-between; /* Espacio uniforme entre los elementos */
+    align-items: flex-start; /* Alineación vertical opcional */
+    gap: 300px; /* Añade espacio entre los elementos sin necesidad de márgenes */
+    padding: 10px; /* Opcional: Espaciado interno para la clase */
+    height: 100%;
+}
+
+.data {
+    flex: 1; /* Los hijos ocupan un tamaño proporcional */
+    max-width: 48%; /* Opcional: Asegúrate de que no excedan el espacio disponible */
+    background-color: rgba(249, 249, 249, 0.8); /* Gris claro con opacidad */
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Opcional: Un toque visual */
+    border-radius: 8px;
+}
+
+.posts {
+    flex: 1; /* Ocupa el espacio necesario */
+    max-width: 48%; /* Limita el ancho */
+    background-color: rgba(249, 249, 249, 0.8); /* Gris claro con opacidad */
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Opcional */
+    height: 500px; /* Altura fija o relativa, ajusta según tu diseño */
+    overflow-y: auto; /* Desplazamiento vertical solo en esta sección */
+    scrollbar-width: thin; /* Opcional: Control de ancho del scrollbar */
+    border-radius: 8px;
+}

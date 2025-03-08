@@ -1,0 +1,31 @@
+/* Estilos para centrar el formulario en la página */
+.Register {
+  display: flex;
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center; /* Centra verticalmente */
+  height: 100vh; /* Toma toda la altura de la ventana */
+  background-color: #4CAF50; /* Color de fondo opcional */
+}
+
+.Form {
+background-color: white; /* Fondo blanco para el formulario */
+border-radius: 10px; /* Bordes redondeados */
+padding: 20px; /* Espaciado interno */
+margin: 20px;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para un efecto de profundidad */
+width: 100%; /* Ancho fijo del formulario */
+max-width: 500px;
+}
+
+/* Estilos para los botones */
+.ButtonGroup {
+display: flex;
+justify-content: space-between; /* Espaciado entre los botones */
+margin-top: 20px; /* Margen superior entre los campos de formulario y los botones */
+}
+
+.Button {
+width: 100%; /* Botón ocupará todo el ancho del contenedor */
+max-width: 200px; /* Ancho máximo de los botones (ajusta según necesidad) */
+border-radius: 10px; /* Bordes redondeados para los botones */
+}

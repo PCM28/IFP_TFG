@@ -1,0 +1,33 @@
+html, body {
+  height: 100%; /* Asegura que el body y html ocupen todo el viewport */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.Layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Hace que .Layout ocupe toda la altura del viewport */
+}
+
+header {
+  flex-shrink: 0;
+  height: 10vh; /* Fija la altura del navbar */
+}
+
+main {
+  flex-grow: 1; /* Hace que el main ocupe todo el espacio disponible */
+  overflow-y: auto; /* Permite el scroll solo en el main */
+  /* Fondo de la página */
+  background-image: url('/Background.png'); /* Ruta de la imagen */
+  background-size: cover; /* Escalar la imagen para que cubra todo el fondo */
+  background-repeat: no-repeat; /* Evitar que la imagen se repita */
+  background-position: center; /* Centrar la imagen en el fondo */
+}
+
+footer {
+  flex-shrink: 0;
+  height: 10vh; /* Fija la altura del footer */
+  background-color: #f8f9fa;
+}

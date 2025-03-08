@@ -1,0 +1,33 @@
+.card {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra el contenido horizontalmente */
+    justify-content: center; /* Centra el contenido verticalmente */
+    text-align: center; /* Asegura que el texto dentro de la tarjeta esté centrado */
+    margin: 0 auto; /* Asegura que la tarjeta esté centrada en su contenedor */
+  }
+  
+  .card-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra los elementos dentro del body del card */
+    justify-content: center; /* Alinea los elementos verticalmente */
+    text-align: center; /* Asegura que el texto dentro del body esté centrado */
+    width: 100%; /* Asegura que el body ocupe todo el ancho disponible */
+  }
+  
+  .card-title {
+    text-align: center; /* Centra el título */
+    margin: 10px 0; /* Espaciado alrededor del título */
+  }
+  
+  .card-text {
+    text-align: center; /* Centra el texto */
+    margin: 10px 0; /* Espaciado alrededor del texto */
+  }
+  
+  .list-group-item {
+    text-align: center; /* Centra el contenido de los elementos de la lista */
+    margin: 5px 0; /* Espaciado entre los elementos de la lista */
+  }
+  

@@ -1,0 +1,24 @@
+/* PostPage.css */
+.post-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 20px;  /* Padding adicional */
+    box-sizing: border-box;  /* Incluye el padding en el cálculo del ancho */
+    flex-grow: 1;  /* Permite que el contenedor ocupe el espacio disponible */
+
+
+}
+
+/* Aquí ajustamos los estilos de los inputs y textarea */
+input, textarea {
+    width: 100%;
+    max-width: 400px;
+    padding: 10px 15px;
+    margin: 10px 0;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+}
