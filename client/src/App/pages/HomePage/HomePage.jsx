@@ -21,7 +21,7 @@ const HomePage = () => {
     const fetchPosts = async () => {
         try {
             const response = await axios.get('http://localhost:5000/api/posts');
-            setPosts(response.data.reverse()); // Invierte el orden de los posts
+            setPosts(response.data); // Quitamos el .reverse() ya que el backend ya los envía ordenados
         } catch (error) {
             console.error("Error fetching posts", error);
         }
@@ -109,19 +109,18 @@ const HomePage = () => {
                             </Button>
                         </Form>
                         ) : (
-                        <ul className="posts-list">
-                            {posts.map(post => (
-                                <CardHomePage
-                                    key={post._id}
-                                    imageSrc={post.image}
-                                    title={post.title}
-                                    text={post.description}
-                                    name={post.userName}
-                                    // editPost={() => editPost(post)}
-                                    // deletePost={() => deletePost(post._id)}
-                                />
+                        <div className="posts-list">
+                            {posts.map((post) => (
+                                <div key={post._id} className="post-item">
+                                    <CardHomePage
+                                        imageSrc={post.image}
+                                        title={post.title}
+                                        text={post.description}
+                                        name={post.user ? post.user.name : 'Usuario Anónimo'}
+                                    />
+                                </div>
                             ))}
-                        </ul>
+                        </div>
                     )}
                 </div>
                 <div className="Aside-Right">

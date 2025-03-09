@@ -11,7 +11,7 @@ const CardHomePage = ({
 
   return (
     <Card style={{ width: '18rem' }} className='card'>
-      {imageSrc ? <Card.Img variant="top" src={imageSrc} /> : null}
+      {imageSrc ? <Card.Img variant="top" src={imageSrc} alt={`Imagen de ${title}`} /> : null}
       <Card.Body className='card-body'>
         <Card.Title className='card-title'>{title}</Card.Title>
         <Card.Text className='card-text'>{text}</Card.Text>

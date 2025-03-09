@@ -34,8 +34,6 @@
     justify-content: flex-start; /* Alinea el contenido en la parte superior */
 }
 
-
-
 .Main {
     width: 60%;
     background-color: rgba(255, 255, 255, 0.9); /* Blanco con un poco de opacidad */
@@ -90,4 +88,32 @@
   .Main::-webkit-scrollbar-thumb:hover {
     background-color: #555;
   }
+  
+/* Media queries para dispositivos móviles */
+@media (max-width: 576px) {
+    .Content-Home {
+        flex-direction: column;
+        padding: 10px;
+    }
+
+    .Aside-Left, .Aside-Right {
+        display: none; /* Oculta los asides en móvil */
+    }
+
+    .Main {
+        width: 100%; /* El Main ocupa todo el ancho en móvil */
+        margin: 0;
+        padding: 10px;
+    }
+
+    .card {
+        width: 100%; /* Las tarjetas ocupan todo el ancho disponible */
+        max-width: 100%;
+    }
+
+    .home-page h1 {
+        font-size: 1.5rem;
+        margin: 10px 0;
+    }
+}
   

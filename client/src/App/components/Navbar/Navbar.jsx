@@ -33,7 +33,9 @@ export const NavBar = () => {
           <Container fluid>
               
             <Navbar.Brand>
-              <Link to="/" className='link title'><h1>ECOTREE</h1></Link>
+              <h1>
+                <Link to="/" className='link title'>ECOTREE</Link>
+              </h1>
             </Navbar.Brand>
 
             <Navbar.Toggle aria-controls="navbarScroll" />
