@@ -1,44 +1,111 @@
-.title{
-    font-family: "Montserrat-Alt1 Light";
-    text-decoration: none;
+.title {
+  font-family: "Montserrat-Alt1 Light";
+  text-decoration: none;
 }
+
 .Navbar {
-    background-color: #4CAF50; /* Un verde estándar */
-    padding: 10px 0;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: #4CAF50;
+  padding: var(--spacing-sm) var(--spacing-md);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.Navbar .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.Navbar .link {
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  transition: color 0.3s ease;
+}
+
+.Navbar .link:hover {
+  color: #DFF6E0;
+}
+
+.Navbar h1.title {
+  color: white;
+  margin: 0;
+  font-family: "Montserrat-Alt1 Light", sans-serif;
+}
+
+.Navbar h2 {
+  color: white;
+  margin: 0;
+}
+
+.Navbar .nav-links {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.Navbar .menu-button {
+  display: none;
+  background: none;
+  border: none;
+  color: white;
+  font-size: var(--font-size-lg);
+  cursor: pointer;
+  padding: var(--spacing-xs);
+}
+
+/* Estilos para dispositivos móviles */
+@media (max-width: 768px) {
+  .Navbar .container {
+    padding: 0 var(--spacing-sm);
   }
-  
+
+  .Navbar .menu-button {
+    display: block;
+  }
+
+  .Navbar .nav-links {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: var(--spacing-sm) 0;
+  }
+
+  .Navbar .nav-links.active {
+    display: flex;
+  }
+
   .Navbar .link {
-    color: white; /* Cambiar el color del texto del menú a blanco */
-    font-weight: bold;
-    text-decoration: none;
+    width: 100%;
+    padding: var(--spacing-sm);
   }
-  
-  .Navbar .link:hover {
-    color: #DFF6E0; /* Un verde más claro para el hover */
-  }
-  
-  .Navbar h1.title {
-    color: white;
-    font-family: "Montserrat-Alt1 Light", sans-serif;
-    margin: 0;
-  }
-  
-  .Navbar h2 {
-    color: white; /* El mensaje de bienvenida */
-  }
-  
-  .Navbar .bg-body-tertiary {
-    background-color: transparent !important; /* Si quieres usar la clase personalizada */
-  }
-  
+}
+
+.Navbar .bg-body-tertiary {
+  background-color: transparent !important;
+}
+
+.Navbar .btn-outline-success {
+  border-color: white;
+  color: white;
+  background-color: transparent;
+  padding: var(--spacing-xs) var(--spacing-md);
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.Navbar .btn-outline-success:hover {
+  background-color: #3E8E41;
+  border-color: #3E8E41;
+}
+
+@media (max-width: 768px) {
   .Navbar .btn-outline-success {
-    border-color: white;
-    color: white;
+    width: 100%;
+    margin: var(--spacing-xs) 0;
+    text-align: center;
   }
-  
-  .Navbar .btn-outline-success:hover {
-    background-color: #3E8E41; /* Un verde oscuro para hover */
-    border-color: #3E8E41;
-  }
-  
+}

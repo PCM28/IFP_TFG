@@ -1,31 +1,55 @@
 /* Estilos para centrar el formulario en la página */
 .Register {
   display: flex;
-  justify-content: center; /* Centra horizontalmente */
-  align-items: center; /* Centra verticalmente */
-  height: 100vh; /* Toma toda la altura de la ventana */
-  background-color: #4CAF50; /* Color de fondo opcional */
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #4CAF50;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
 }
 
 .Form {
-background-color: white; /* Fondo blanco para el formulario */
-border-radius: 10px; /* Bordes redondeados */
-padding: 20px; /* Espaciado interno */
-margin: 20px;
-box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para un efecto de profundidad */
-width: 100%; /* Ancho fijo del formulario */
-max-width: 500px;
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 500px;
 }
 
 /* Estilos para los botones */
 .ButtonGroup {
-display: flex;
-justify-content: space-between; /* Espaciado entre los botones */
-margin-top: 20px; /* Margen superior entre los campos de formulario y los botones */
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  gap: var(--spacing-md);
 }
 
 .Button {
-width: 100%; /* Botón ocupará todo el ancho del contenedor */
-max-width: 200px; /* Ancho máximo de los botones (ajusta según necesidad) */
-border-radius: 10px; /* Bordes redondeados para los botones */
+  width: 100%;
+  max-width: 200px;
+  border-radius: 10px;
+}
+
+/* Media queries para dispositivos móviles */
+@media (max-width: 576px) {
+  .Form {
+    margin: 10px;
+    padding: 15px;
+  }
+
+  .ButtonGroup {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  .Button {
+    max-width: 100%;
+  }
 }

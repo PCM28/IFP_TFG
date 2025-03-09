@@ -1,33 +1,74 @@
 html, body {
-  height: 100%; /* Asegura que el body y html ocupen todo el viewport */
+  height: 100%;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
 .Layout {
   display: flex;
   flex-direction: column;
-  height: 100vh; /* Hace que .Layout ocupe toda la altura del viewport */
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
 }
 
 header {
   flex-shrink: 0;
-  height: 10vh; /* Fija la altura del navbar */
+  margin: 0;
+  padding: 0;
+  background-color: #4CAF50;
 }
 
 main {
-  flex-grow: 1; /* Hace que el main ocupe todo el espacio disponible */
-  overflow-y: auto; /* Permite el scroll solo en el main */
-  /* Fondo de la página */
-  background-image: url('/Background.png'); /* Ruta de la imagen */
-  background-size: cover; /* Escalar la imagen para que cubra todo el fondo */
-  background-repeat: no-repeat; /* Evitar que la imagen se repita */
-  background-position: center; /* Centrar la imagen en el fondo */
+  flex: 1 0 auto;
+  width: 100%;
+  padding: var(--spacing-md);
+  overflow-y: auto;
+  background-image: url('/Background.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+@media (max-width: 576px) {
+  main {
+    padding: var(--spacing-sm);
+  }
 }
 
 footer {
   flex-shrink: 0;
-  height: 10vh; /* Fija la altura del footer */
-  background-color: #f8f9fa;
+  margin: 0;
+  padding: 0;
+  background-color: #4CAF50;
+}
+
+/* Contenedor responsive para el contenido principal */
+.content-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-md);
+}
+
+@media (max-width: 576px) {
+  .content-container {
+    padding: 0 var(--spacing-sm);
+  }
+}
+
+/* Ajustes para scroll en dispositivos móviles */
+@media (max-width: 576px) {
+  body {
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  main {
+    -webkit-overflow-scrolling: touch;
+  }
 }
