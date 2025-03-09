@@ -143,7 +143,7 @@ const MyAccountPage = () => {
                                     imageSrc={post.image}
                                     title={post.title}
                                     text={post.description}
-                                    name={post.userName}
+                                    name={user.name}
                                     editPost={() => editPost(post)}
                                     deletePost={() => deletePost(post._id)}
                                 />
