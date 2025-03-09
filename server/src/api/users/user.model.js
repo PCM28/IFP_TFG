@@ -4,12 +4,11 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema(
   {
-    name: { type: String, required: true },
-    age: { type: String, required: true },
-    country: { type: String, required: true },
-    email: { type: String, required: true },
+    name: { type: String, required: true, trim: true },
+    email: { type: String, required: true, unique: true, trim: true },
     password: { type: String, required: true },
-    userImage: { type: String, default: null },
+    age: { type: Number },
+    country: { type: String },
     posts: [{ type: Schema.Types.ObjectId, ref: "Post" }],
   },
   {

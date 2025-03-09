@@ -1,5 +1,6 @@
 const passport = require("passport");
 const User = require("./user.model");
+const bcrypt = require("bcrypt");
 
 const registerPost = (req, res) => {
 
@@ -134,6 +135,31 @@ const getUserPosts = async (req, res) => {
 //       return next(error);
 //   }
 // }
+
+const register = async (req, res, next) => {
+    try {
+        const { name, email, password, age, country } = req.body;
+        
+        const userInDb = await User.findOne({ email });
+        if (userInDb) {
+            return res.status(400).json({ message: 'Este email ya está registrado' });
+        }
+
+        const hashPassword = await bcrypt.hash(password, 10);
+
+        const newUser = new User({
+            name,
+            email,
+            password: hashPassword,
+            age,
+            country,
+        });
+
+        // ... resto del código ...
+    } catch (error) {
+        return next(error);
+    }
+};
 
 module.exports = {
   registerPost,

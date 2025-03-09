@@ -14,7 +14,6 @@ const INITIAL_STATE = {
   country: "",
   email: "",
   password: "",
-  userImg: ""
 };
 
 
@@ -24,7 +23,6 @@ export const RegisterPage = () => {
   const navigate = useNavigate();
   const { error } = useSelector((state) => state.auth);
   const [form, setForm] = useState(INITIAL_STATE);
-  const fileInputRef = useRef(null);
 
   const submit = (ev) => {
     ev.preventDefault();
@@ -35,13 +33,6 @@ export const RegisterPage = () => {
     formData.append("country", form.country);
     formData.append("email", form.email);
     formData.append("password", form.password);
-    formData.append("userImage", form.password);
-
-    // if (fileInputRef.current?.files[0]) {
-    //   formData.append("userImg", fileInputRef.current.files[0]);
-    // } else {
-    //   console.warn("No se seleccionó ninguna imagen.");
-    // }
 
     dispatch(registerUser(formData, navigate));
   };
@@ -127,15 +118,6 @@ export const RegisterPage = () => {
                 pattern="(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}"
                 title="La contraseña no cumple las reglas. 8 carácteres, 1 mayúscula y 1 número"
                 required
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3" controlId="formBasicFile">
-              <Form.Control 
-                type="file" 
-                onChange={changeInput} 
-                accept="image/*"
-                ref={fileInputRef}
               />
             </Form.Group>
 
