@@ -74,14 +74,19 @@
 }
 
 .posts {
-    flex: 1;
+    width: fit-content;
     background-color: rgba(255, 255, 255, 0.9);
-    padding: 15px;
+    padding: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     box-sizing: border-box;
     overflow-y: auto;
-    max-height: 100%;
+}
+
+.posts-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
 }
 
 /* Media query para dispositivos móviles y tablets */
@@ -100,7 +105,7 @@
     }
 
     .posts {
-        width: 95%;
+        width: fit-content;
         margin: 0 auto;
     }
 }
