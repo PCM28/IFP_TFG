@@ -12,7 +12,7 @@ export const CardMyProfile = ({
 }) =>  {
 
   return (
-    <Card style={{ width: '25rem', textAlign: 'center', margin: '0 auto' }}>
+    <Card style={{ width: '25rem', margin: '0 auto' }}>
        {userImage ? <Card.Img variant="top" src={userImage} /> : null}
       <Card.Body>
         <Card.Title>Mi Perfil</Card.Title>
@@ -24,8 +24,7 @@ export const CardMyProfile = ({
           display: 'grid',
           gridTemplateColumns: 'auto 1fr',
           gap: '10px 15px',
-          textAlign: 'left',
-          padding: '0 100px',
+          padding: '0 20px'
         }}
       > 
         <div><strong>Nombre:</strong></div>

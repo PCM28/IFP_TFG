@@ -1,31 +1,106 @@
 .Content{
-    display: flex; /* Disposición en fila */
-    justify-items: center;
-    align-items: center;
-    justify-content: space-between; /* Espacio uniforme entre los elementos */
-    align-items: flex-start; /* Alineación vertical opcional */
-    gap: 300px; /* Añade espacio entre los elementos sin necesidad de márgenes */
-    padding: 10px; /* Opcional: Espaciado interno para la clase */
-    height: 100%;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    justify-content: space-between;
+    gap: 2rem;
+    box-sizing: border-box;
+    padding: 20px;
+    flex-grow: 1;
+    overflow: hidden;
 }
 
 .data {
-    flex: 1; /* Los hijos ocupan un tamaño proporcional */
-    max-width: 48%; /* Opcional: Asegúrate de que no excedan el espacio disponible */
-    background-color: rgba(249, 249, 249, 0.8); /* Gris claro con opacidad */
+    width: 18rem;
     padding: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Opcional: Un toque visual */
+    box-sizing: border-box;
+    background-color: rgba(244, 244, 244, 0.8);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: fit-content;
+}
+
+.data .card {
+    width: 100% !important;
+    margin: 0 !important;
+    font-size: 0.9rem;
+    box-shadow: none;
+    text-align: left !important;
+}
+
+.data .card .card-body {
+    padding: 0.75rem;
+    text-align: left !important;
+}
+
+.data .card .card-title {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    text-align: left;
+}
+
+.data .card .list-group {
+    padding: 0.5rem 0.75rem;
+    text-align: left !important;
+}
+
+.data .card .list-group-item {
+    padding: 0.5rem;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    word-break: break-word;
+    border: none;
+    text-align: left !important;
+    padding-left: 0;
+}
+
+.data .card .list-group-item strong {
+    margin-right: 0.5rem;
+    white-space: nowrap;
+    text-align: left !important;
+}
+
+.data .card .list-group-item div {
+    flex: 1;
+    text-align: left;
+    overflow-wrap: break-word;
+    padding-left: 0;
 }
 
 .posts {
-    flex: 1; /* Ocupa el espacio necesario */
-    max-width: 48%; /* Limita el ancho */
-    background-color: rgba(249, 249, 249, 0.8); /* Gris claro con opacidad */
-    padding: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Opcional */
-    height: 500px; /* Altura fija o relativa, ajusta según tu diseño */
-    overflow-y: auto; /* Desplazamiento vertical solo en esta sección */
-    scrollbar-width: thin; /* Opcional: Control de ancho del scrollbar */
+    flex: 1;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    max-height: 100%;
+}
+
+/* Media query para dispositivos móviles y tablets */
+@media (max-width: 768px) {
+    .Content {
+        flex-direction: column;
+        padding: 10px;
+        width: 95%;
+        gap: 2rem;
+    }
+
+    .data {
+        width: 18rem;
+        margin: 0 auto;
+        order: -1;
+    }
+
+    .posts {
+        width: 95%;
+        margin: 0 auto;
+    }
 }
