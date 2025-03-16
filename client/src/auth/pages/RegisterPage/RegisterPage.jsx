@@ -2,7 +2,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import "./RegisterPage.css";
 import { Link, useNavigate } from 'react-router-dom';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 
 import { registerUser } from "../../../store/auth/authActions";
 
