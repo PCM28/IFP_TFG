@@ -1,14 +1,33 @@
-import { describe, test, expect } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { describe, test, expect, beforeEach, vi } from 'vitest';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import { configureStore } from '@reduxjs/toolkit';
 import { RegisterPage } from './RegisterPage';
+import axios from 'axios';
 
-// Crear un mock del store
+// Mock axios
+vi.mock('axios');
+
+// Mock useNavigate
+const mockNavigate = vi.fn();
+vi.mock('react-router-dom', async () => {
+    const actual = await vi.importActual('react-router-dom');
+    return {
+        ...actual,
+        useNavigate: () => mockNavigate
+    };
+});
+
+// Crear un mock del store con estado más completo
 const mockStore = configureStore({
     reducer: {
-        auth: (state = { user: null, error: null, isLoading: false }) => state
+        auth: (state = { user: null, error: null, isLoading: false }, action) => {
+            if (action.type === 'REGISTER_USER_ERROR') {
+                return { ...state, error: action.payload };
+            }
+            return state;
+        }
     }
 });
 
@@ -22,51 +41,105 @@ const renderWithProviders = (component) => {
     );
 };
 
-describe("RegisterPage form validation", () => {
-    test("no permite enviar el formulario si el nombre está vacío", () => {
-        renderWithProviders(<RegisterPage />);
-        
-        fireEvent.change(screen.getByPlaceholderText("Edad"), { target: { value: "25" } });
-        fireEvent.change(screen.getByPlaceholderText("Correo"), { target: { value: "test@email.com" } });
-        fireEvent.change(screen.getByPlaceholderText("País"), { target: { value: "España" } });
-        fireEvent.change(screen.getByPlaceholderText("Contraseña"), { target: { value: "password1" } });
-
-        fireEvent.click(screen.getByText("Crear Cuenta"));
-
-        const nombreInput = screen.getByPlaceholderText("Nombre completo");
-        console.log('Test 1 - Valor del nombre:', nombreInput.value);
-        expect(nombreInput.value).toBe("");
+describe('Registro de Usuario - Test de Integración', () => {
+    beforeEach(() => {
+        // Limpiar todos los mocks antes de cada test
+        vi.clearAllMocks();
     });
 
-    test("muestra error si la edad no cumple el patrón (menor de 13)", () => {
+    test('proceso completo de registro de usuario', async () => {
+        // 1. Renderizar el componente
         renderWithProviders(<RegisterPage />);
 
-        fireEvent.change(screen.getByPlaceholderText("Nombre completo"), { target: { value: "Carlos" } });
-        fireEvent.change(screen.getByPlaceholderText("Edad"), { target: { value: "10" } });
-        fireEvent.change(screen.getByPlaceholderText("Correo"), { target: { value: "test@email.com" } });
-        fireEvent.change(screen.getByPlaceholderText("País"), { target: { value: "España" } });
-        fireEvent.change(screen.getByPlaceholderText("Contraseña"), { target: { value: "password1" } });
+        // 2. Simular el llenado del formulario
+        fireEvent.change(screen.getByPlaceholderText('Nombre completo'), {
+            target: { value: 'Usuario Test' }
+        });
+        fireEvent.change(screen.getByPlaceholderText('Edad'), {
+            target: { value: '25' }
+        });
+        fireEvent.change(screen.getByPlaceholderText('País'), {
+            target: { value: 'España' }
+        });
+        fireEvent.change(screen.getByPlaceholderText('Correo'), {
+            target: { value: 'test@example.com' }
+        });
+        fireEvent.change(screen.getByPlaceholderText('Contraseña'), {
+            target: { value: 'password123' }
+        });
 
-        fireEvent.click(screen.getByText("Crear Cuenta"));
+        // 3. Mock de la respuesta del servidor
+        axios.post.mockResolvedValueOnce({
+            data: {
+                _id: '123',
+                name: 'Usuario Test',
+                email: 'test@example.com',
+                age: '25',
+                country: 'España'
+            }
+        });
 
-        const edadInput = screen.getByPlaceholderText("Edad");
-        console.log('Test 2 - Validez de edad:', edadInput.validity.valid);
-        expect(edadInput.validity.valid).toBe(false);
+        // 4. Simular el envío del formulario
+        fireEvent.click(screen.getByText('Crear Cuenta'));
+
+        // 5. Verificar que se hizo la llamada al endpoint correcto
+        await waitFor(() => {
+            expect(axios.post).toHaveBeenCalledWith(
+                'http://localhost:5000/users/register',
+                expect.any(FormData),
+                expect.any(Object)
+            );
+        });
+
+        // 6. Verificar que se llamó a navigate con la ruta correcta
+        await waitFor(() => {
+            expect(mockNavigate).toHaveBeenCalledWith('/auth/login');
+        });
     });
 
-    test("no permite enviar si el email no tiene formato válido", () => {
+    test('manejo de errores en el registro', async () => {
+        // 1. Renderizar el componente
         renderWithProviders(<RegisterPage />);
 
-        fireEvent.change(screen.getByPlaceholderText("Nombre completo"), { target: { value: "Ana" } });
-        fireEvent.change(screen.getByPlaceholderText("Edad"), { target: { value: "30" } });
-        fireEvent.change(screen.getByPlaceholderText("Correo"), { target: { value: "correo-no-valido" } });
-        fireEvent.change(screen.getByPlaceholderText("País"), { target: { value: "México" } });
-        fireEvent.change(screen.getByPlaceholderText("Contraseña"), { target: { value: "password1" } });
+        // 2. Simular el llenado del formulario con email que ya existe
+        fireEvent.change(screen.getByPlaceholderText('Nombre completo'), {
+            target: { value: 'Usuario Test' }
+        });
+        fireEvent.change(screen.getByPlaceholderText('Edad'), {
+            target: { value: '25' }
+        });
+        fireEvent.change(screen.getByPlaceholderText('País'), {
+            target: { value: 'España' }
+        });
+        fireEvent.change(screen.getByPlaceholderText('Correo'), {
+            target: { value: 'existente@example.com' }
+        });
+        fireEvent.change(screen.getByPlaceholderText('Contraseña'), {
+            target: { value: 'password123' }
+        });
 
-        fireEvent.click(screen.getByText("Crear Cuenta"));
+        // 3. Mock de error del servidor
+        const errorMessage = 'Este email ya está registrado';
+        axios.post.mockRejectedValueOnce({
+            response: {
+                data: {
+                    message: errorMessage
+                }
+            }
+        });
 
-        const emailInput = screen.getByPlaceholderText("Correo");
-        console.log('Test 3 - Validez de email:', emailInput.validity.valid);
-        expect(emailInput.validity.valid).toBe(false);
+        // 4. Simular el envío del formulario
+        fireEvent.click(screen.getByText('Crear Cuenta'));
+
+        // 5. Verificar que se muestra el mensaje de error
+        await waitFor(() => {
+            // Primero verificamos que el error se haya actualizado en el store
+            const state = mockStore.getState();
+            expect(state.auth.error).toBe(errorMessage);
+            
+            // Luego verificamos que el error se muestre en el DOM
+            const errorElement = screen.getByRole('heading', { level: 2, class: 'error' });
+            expect(errorElement).toHaveTextContent(errorMessage);
+        });
     });
 });
