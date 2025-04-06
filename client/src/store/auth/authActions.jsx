@@ -50,7 +50,7 @@ export const registerUser = (user, navigate) => async (dispatch) => {
     if (response && response._id) {
       // Se ha registrado el usuario
       dispatch({ type: REGISTER_USER_OK, payload: response });
-      navigate("/");
+      navigate("/auth/login");
     } else {
       // No se ha registrado correctamente
       dispatch({ type: REGISTER_USER_ERROR, payload: response.message || "Registro fallido" });
