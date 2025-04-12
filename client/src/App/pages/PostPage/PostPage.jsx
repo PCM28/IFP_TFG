@@ -1,10 +1,11 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
 import "./PostPage.css";
 import { useSelector } from 'react-redux';
 import { BASE_URL } from '../../../api/auth.API';
+import { useNavigate } from 'react-router-dom';
 
 axios.defaults.withCredentials = true;
 
@@ -15,6 +16,14 @@ const PostPage = () => {
     const [image, setImage] = useState(null);
     const fileInputRef = useRef(null);
     const { user } = useSelector((state) => state.auth);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!user || !user._id) {
+            alert("Por favor, inicia sesión para crear un post");
+            navigate('/auth/login');
+        }
+    }, [user, navigate]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();

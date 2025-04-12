@@ -23,14 +23,24 @@ app.use(cors({
   origin: ['http://localhost:5173', 'https://ifp-final-project.vercel.app'],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'Cookie', 'Origin', 'Accept'],
+  exposedHeaders: ['Set-Cookie'],
 }));
+
+// Middleware para establecer headers adicionales de CORS
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Credentials', 'true');
+  res.header('Access-Control-Allow-Origin', req.headers.origin);
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, Cookie');
+  next();
+});
 
 // Configuración de express-session
 app.use(session({
   secret: process.env.SESSION_SECRET || 'ASD12sasdjkq!woiej213_SAd!asdljiasjd',
-  resave: false,
-  saveUninitialized: false,
+  resave: true,
+  saveUninitialized: true,
   store: MongoStore.create({ 
     mongoUrl: db.DB_URL,
     ttl: 24 * 60 * 60 // 1 día de duración de la sesión
@@ -40,7 +50,6 @@ app.use(session({
     httpOnly: true,
     sameSite: 'none',
     maxAge: 24 * 60 * 60 * 1000, // 1 día
-    domain: undefined // Quitamos la restricción del dominio
   }
 }));
 
