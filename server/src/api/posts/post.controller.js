@@ -6,10 +6,19 @@ const User = require("../users/user.model");
 const createPost = async (req, res) => {
   try {
     const { title, description, image } = req.body;
-    const userId = req.user._id; // Obtenemos el ID del usuario de la sesión
+    const userId = req.user._id;
 
     if (!title || !description) {
       return res.status(400).json({ message: 'Faltan datos obligatorios' });
+    }
+
+    if (!userId) {
+      return res.status(401).json({ message: 'Usuario no identificado' });
+    }
+
+    // Verificar el tamaño de la imagen
+    if (image && image.length > 5000000) { // 5MB limit
+      return res.status(400).json({ message: 'La imagen es demasiado grande. Máximo 5MB.' });
     }
 
     const newPost = new Post({
@@ -31,8 +40,11 @@ const createPost = async (req, res) => {
 
     res.status(201).json(populatedPost);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Error creando el post' });
+    console.error('Error en createPost:', error);
+    res.status(500).json({ 
+      message: 'Error creando el post',
+      error: error.message 
+    });
   }
 };
 

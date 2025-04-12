@@ -8,10 +8,17 @@ const {
   deletePost
 } = require("./post.controller");
 
-router.post('/', createPost);
+const isAuthenticated = (req, res, next) => {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  res.status(401).json({ message: 'Usuario no autenticado' });
+};
+
+router.post('/', isAuthenticated, createPost);
 router.get('/', getAllPosts);
 router.get('/:id', getPostById);
-router.put('/:id', editPost);
-router.delete('/:id', deletePost);
+router.put('/:id', isAuthenticated, editPost);
+router.delete('/:id', isAuthenticated, deletePost);
 
 module.exports = router;
