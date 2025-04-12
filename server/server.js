@@ -41,15 +41,18 @@ app.use(session({
   secret: process.env.SESSION_SECRET || 'ASD12sasdjkq!woiej213_SAd!asdljiasjd',
   resave: true,
   saveUninitialized: true,
+  proxy: true, // Necesario para trabajar con Render/Vercel
   store: MongoStore.create({ 
     mongoUrl: db.DB_URL,
-    ttl: 24 * 60 * 60 // 1 día de duración de la sesión
+    ttl: 24 * 60 * 60, // 1 día de duración de la sesión
+    autoRemove: 'native'
   }),
   cookie: {
-    secure: process.env.NODE_ENV === 'production', // true en producción
+    secure: true,
     httpOnly: true,
     sameSite: 'none',
     maxAge: 24 * 60 * 60 * 1000, // 1 día
+    path: '/'
   }
 }));
 
