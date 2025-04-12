@@ -19,8 +19,8 @@ const PostPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!user || !user.name) {
-            console.error("User not authenticated or missing name");
+        if (!user || !user._id) {
+            alert("Por favor, inicia sesión para crear un post");
             return;
         }
 
@@ -33,7 +33,12 @@ const PostPage = () => {
         console.log('Enviando datos al backend:', newPost);
 
         try {
-            const response = await axios.post(`${BASE_URL}/api/posts`, newPost);
+            const response = await axios.post(`${BASE_URL}/api/posts`, newPost, {
+                withCredentials: true,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
             console.log('Respuesta del servidor:', response.data);
             setTitle('');
             setDescription('');
@@ -42,7 +47,8 @@ const PostPage = () => {
                 fileInputRef.current.value = "";
             }
         } catch (error) {
-            console.error("Error uploading post:", error.response?.data || error.message);
+            console.error("Error completo:", error);
+            console.error("Respuesta del servidor:", error.response?.data);
             alert("Error al crear el post: " + (error.response?.data?.message || error.message));
         }
     };
