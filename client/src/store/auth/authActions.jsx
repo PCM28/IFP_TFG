@@ -1,5 +1,6 @@
 import axios from "axios";
 import { checkSession, login, logout, register } from "../../api"; //Aquí está simplificado, si hace falta un cambio, indicarlo a su origen
+import { BASE_URL } from "../../api/auth.API";
 
 export const LOGIN_USER_START = "LOGIN_USER_START";
 export const LOGIN_USER_OK = "LOGIN_USER_OK";
@@ -95,7 +96,7 @@ export const updateUser = (id, data) => async (dispatch) => {
   try {
     dispatch({ type: UPDATE_START });
     console.log(data);
-    const response = await axios.put(`http://localhost:4500/users/${id}`, data);
+    const response = await axios.put(`${BASE_URL}/users/${id}`, data);
     console.log(response);
     dispatch({ type: UPDATE_OK, payload: response.data });
   } catch (error) {

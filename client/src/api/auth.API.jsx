@@ -1,7 +1,7 @@
 import axios from "axios";
 axios.defaults.headers.post["Content-Type"] = "application/json";
 
-export const BASE_URL = "https://ifp-tfg.onrender.com"; // url del backend en Render
+export const BASE_URL = import.meta.env.VITE_API_URL; // url del backend en Render
 
 //trata de registrar el usuario en nuestra API y devuelve la respuesta de la API
 export const register = async (user) => {
@@ -39,7 +39,7 @@ export const product = async (device) => {
 };
 
 //lanza a la API la petición para desloguear el usuario
-export const logout = async (user) => {
+export const logout = async () => {
   try {
     await axios.post(`${BASE_URL}/users/logout`, {}, { withCredentials: true });
     return null;
