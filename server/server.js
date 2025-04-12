@@ -14,38 +14,41 @@ dotenv.config();
 db.connect();
 
 // const PORT = 4500;
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 const app = express();
 
-// Mueve el middleware CORS antes de las configuraciones de body parsing
-app.use(cors({ 
+// Configuración de CORS antes de cualquier middleware
+app.use(cors({
   origin: ['http://localhost:5173', 'https://ifp-final-project.vercel.app'],
-  credentials: true 
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'],
 }));
 
-// Asegúrate de que las cabeceras CORS estén configuradas adecuadamente
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Methods", "POST, GET, PUT, PATCH, DELETE");
-  res.header("Access-Control-Allow-Credentials", "true");
-  res.header("Access-Control-Allow-Headers", "Content-Type");
-  next();
-});
-
-app.use(express.json({ limit: '50mb' })); // Aumenta el límite máximo de tamaño del cuerpo JSON
-app.use(express.urlencoded({ extended: true, limit: '50mb' })); // Aumenta el límite para solicitudes URL codificadas
-
-
+// Configuración de express-session
 app.use(session({
-  secret: 'ASD12sasdjkq!woiej213_SAd!asdljiasjd',
-  saveUninitialized: false,
+  secret: process.env.SESSION_SECRET || 'ASD12sasdjkq!woiej213_SAd!asdljiasjd',
   resave: false,
+  saveUninitialized: false,
+  store: MongoStore.create({ 
+    mongoUrl: db.DB_URL,
+    ttl: 24 * 60 * 60 // 1 día de duración de la sesión
+  }),
   cookie: {
-    maxAge: 120 * 60 * 1000,
-  },
-  store: MongoStore.create({ mongoUrl: db.DB_URL })
+    secure: process.env.NODE_ENV === 'production', // true en producción
+    httpOnly: true,
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+    maxAge: 24 * 60 * 60 * 1000, // 1 día
+    domain: process.env.NODE_ENV === 'production' ? '.vercel.app' : undefined
+  }
 }));
 
+// Body parser middleware
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ extended: true, limit: '50mb' }));
+
+// Inicialización de Passport
 app.use(passport.initialize());
 app.use(passport.session());
 
