@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 import axios from 'axios';
 import "./PostPage.css";
 import { useSelector } from 'react-redux';
+import { BASE_URL } from '../../../api/auth.API';
 
 axios.defaults.withCredentials = true;
 
@@ -33,7 +34,7 @@ const PostPage = () => {
         console.log('Enviando datos al backend:', newPost); // Verifica los datos que se están enviando
 
         try {
-            await axios.post('http://localhost:5000/api/posts', newPost);
+            await axios.post(`${BASE_URL}/api/posts`, newPost);
             setTitle('');
             setDescription('');
             setImage(null);

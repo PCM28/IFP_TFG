@@ -19,7 +19,10 @@ const PORT = 5000;
 const app = express();
 
 // Mueve el middleware CORS antes de las configuraciones de body parsing
-app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
+app.use(cors({ 
+  origin: ['http://localhost:5173', 'https://ifp-final-project.vercel.app'],
+  credentials: true 
+}));
 
 // Asegúrate de que las cabeceras CORS estén configuradas adecuadamente
 app.use((req, res, next) => {
