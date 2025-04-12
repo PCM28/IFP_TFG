@@ -1,4 +1,7 @@
 import axios from "axios";
+
+// Configuración global de axios
+axios.defaults.withCredentials = true;
 axios.defaults.headers.post["Content-Type"] = "application/json";
 
 export const BASE_URL = import.meta.env.VITE_API_URL; // url del backend en Render
