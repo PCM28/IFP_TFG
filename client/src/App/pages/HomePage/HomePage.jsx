@@ -3,6 +3,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import CardHomePage from '../../components/Card/CardHomePage';
 import axios from 'axios';
+import { BASE_URL } from '../../../api/auth.API';
 import "./HomePage.css";
 
 const HomePage = () => {
@@ -20,7 +21,7 @@ const HomePage = () => {
 
     const fetchPosts = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/api/posts');
+            const response = await axios.get(`${BASE_URL}/api/posts`);
             setPosts(response.data); // Quitamos el .reverse() ya que el backend ya los envía ordenados
         } catch (error) {
             console.error("Error fetching posts", error);
@@ -32,7 +33,7 @@ const HomePage = () => {
         if (currentPost) {
             try {
                 const updatedPost = { title, description, image };
-                await axios.put(`http://localhost:5000/api/posts/${currentPost._id}`, updatedPost);
+                await axios.put(`${BASE_URL}/api/posts/${currentPost._id}`, updatedPost);
                 fetchPosts(); // Refresh the posts list
                 setIsEditing(false);
                 setCurrentPost(null);

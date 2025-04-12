@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
+import { BASE_URL } from '../../../api/auth.API';
 import CardMyAccount from '../../components/CardMyAccount/CardMyAccount';
 import CardMyProfile from '../../components/CardMyProfile/CardMyProfile';
 import Form from 'react-bootstrap/Form';
@@ -22,7 +23,7 @@ const MyAccountPage = () => {
     const fetchPostsByUser = useCallback(async () => {
         if (!user?._id) return; // Evitar errores si user es null o undefined
         try {
-            const response = await axios.get(`http://localhost:5000/users/user/${user._id}`);
+            const response = await axios.get(`${BASE_URL}/users/user/${user._id}`);
             console.log("Fetched posts:", response.data.posts); // <-- Verifica que estás obteniendo los posts
             setPosts(response.data.posts.reverse()); // Invierte el orden de los posts
         } catch (error) {
@@ -38,7 +39,7 @@ const MyAccountPage = () => {
     
     const deletePost = async (id) => {
         try {
-            await axios.delete(`http://localhost:5000/api/posts/${id}`);
+            await axios.delete(`${BASE_URL}/api/posts/${id}`);
             setPosts(posts.filter(post => post._id !== id));
         } catch (error) {
             console.error("Error deleting post", error);
@@ -58,7 +59,7 @@ const MyAccountPage = () => {
         if (currentPost) {
             try {
                 const updatedPost = { title, description, image };
-                await axios.put(`http://localhost:5000/api/posts/${currentPost._id}`, updatedPost);
+                await axios.put(`${BASE_URL}/api/posts/${currentPost._id}`, updatedPost);
                 fetchPostsByUser(); // Refresh the posts list
                 setIsEditing(false);
                 setCurrentPost(null);
