@@ -27,14 +27,14 @@ const PostPage = () => {
         const newPost = {
             title,
             description,
-            userName: user.name,
             image
         };
 
-        console.log('Enviando datos al backend:', newPost); // Verifica los datos que se están enviando
+        console.log('Enviando datos al backend:', newPost);
 
         try {
-            await axios.post(`${BASE_URL}/api/posts`, newPost);
+            const response = await axios.post(`${BASE_URL}/api/posts`, newPost);
+            console.log('Respuesta del servidor:', response.data);
             setTitle('');
             setDescription('');
             setImage(null);
@@ -42,7 +42,8 @@ const PostPage = () => {
                 fileInputRef.current.value = "";
             }
         } catch (error) {
-            console.error("Error uploading post", error);
+            console.error("Error uploading post:", error.response?.data || error.message);
+            alert("Error al crear el post: " + (error.response?.data?.message || error.message));
         }
     };
 
