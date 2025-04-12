@@ -2,9 +2,19 @@ import axios from "axios";
 
 // Configuración global de axios
 axios.defaults.withCredentials = true;
-axios.defaults.headers.post["Content-Type"] = "application/json";
+axios.defaults.headers.common['Accept'] = 'application/json';
+axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 export const BASE_URL = import.meta.env.VITE_API_URL; // url del backend en Render
+
+// Interceptor para manejar las cookies
+axios.interceptors.request.use(function (config) {
+  // Asegurarse de que withCredentials está habilitado en todas las peticiones
+  config.withCredentials = true;
+  return config;
+}, function (error) {
+  return Promise.reject(error);
+});
 
 //trata de registrar el usuario en nuestra API y devuelve la respuesta de la API
 export const register = async (user) => {

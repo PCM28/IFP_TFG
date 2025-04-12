@@ -17,13 +17,48 @@ const registerPost = (req, res) => {
 };
 
 const loginPost = (req, res) => {
-  const done = (error, user) => {
-    if (error) return res.status(error.status || 500).json(error.message);
+  const done = async (error, user) => {
+    if (error) {
+      console.error('Error en autenticación:', error);
+      return res.status(error.status || 500).json(error.message);
+    }
 
-    req.logIn(user, (error) => {
-      if (error) return res.status(error.status || 500).json(error.message);
-      return res.status(200).json(user);
-    });
+    if (!user) {
+      console.error('Usuario no encontrado o credenciales inválidas');
+      return res.status(401).json({ message: 'Credenciales inválidas' });
+    }
+
+    try {
+      await new Promise((resolve, reject) => {
+        req.logIn(user, (error) => {
+          if (error) {
+            console.error('Error en login:', error);
+            reject(error);
+          }
+          resolve();
+        });
+      });
+
+      // Asegurarse de que la sesión se guarde antes de responder
+      req.session.save((err) => {
+        if (err) {
+          console.error('Error guardando sesión:', err);
+          return res.status(500).json({ message: 'Error guardando sesión' });
+        }
+        
+        console.log('Sesión guardada correctamente');
+        console.log('Usuario en sesión:', req.user);
+        console.log('ID de sesión:', req.sessionID);
+        
+        // Enviar respuesta sin la contraseña
+        const userResponse = { ...user.toObject() };
+        delete userResponse.password;
+        return res.status(200).json(userResponse);
+      });
+    } catch (error) {
+      console.error('Error en el proceso de login:', error);
+      return res.status(500).json({ message: 'Error en el proceso de login' });
+    }
   };
 
   passport.authenticate("logincito", done)(req);
