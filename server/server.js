@@ -38,9 +38,9 @@ app.use(session({
   cookie: {
     secure: process.env.NODE_ENV === 'production', // true en producción
     httpOnly: true,
-    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+    sameSite: 'none',
     maxAge: 24 * 60 * 60 * 1000, // 1 día
-    domain: process.env.NODE_ENV === 'production' ? '.vercel.app' : undefined
+    domain: undefined // Quitamos la restricción del dominio
   }
 }));
 
@@ -51,6 +51,14 @@ app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 // Inicialización de Passport
 app.use(passport.initialize());
 app.use(passport.session());
+
+// Middleware de debugging
+app.use((req, res, next) => {
+  console.log('Session:', req.session);
+  console.log('User:', req.user);
+  console.log('IsAuthenticated:', req.isAuthenticated());
+  next();
+});
 
 // Rutas de la API
 app.use('/', mainRoutes); // Rutas principales
