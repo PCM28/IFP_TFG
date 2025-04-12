@@ -17,6 +17,8 @@ const registerPost = (req, res) => {
 };
 
 const loginPost = (req, res) => {
+  console.log('Iniciando proceso de login');
+  
   const done = async (error, user) => {
     if (error) {
       console.error('Error en autenticación:', error);
@@ -29,32 +31,52 @@ const loginPost = (req, res) => {
     }
 
     try {
+      console.log('Intentando establecer sesión para usuario:', user._id);
+      
       await new Promise((resolve, reject) => {
         req.logIn(user, (error) => {
           if (error) {
             console.error('Error en login:', error);
             reject(error);
           }
+          console.log('Login completado exitosamente');
+          resolve();
+        });
+      });
+
+      // Regenerar la sesión para prevenir session fixation
+      const oldSession = req.session;
+      await new Promise((resolve) => {
+        req.session.regenerate((err) => {
+          if (err) {
+            console.error('Error regenerando sesión:', err);
+          }
+          // Restaurar propiedades útiles de la sesión anterior
+          Object.assign(req.session, oldSession);
           resolve();
         });
       });
 
       // Asegurarse de que la sesión se guarde antes de responder
-      req.session.save((err) => {
-        if (err) {
-          console.error('Error guardando sesión:', err);
-          return res.status(500).json({ message: 'Error guardando sesión' });
-        }
-        
-        console.log('Sesión guardada correctamente');
-        console.log('Usuario en sesión:', req.user);
-        console.log('ID de sesión:', req.sessionID);
-        
-        // Enviar respuesta sin la contraseña
-        const userResponse = { ...user.toObject() };
-        delete userResponse.password;
-        return res.status(200).json(userResponse);
+      await new Promise((resolve, reject) => {
+        req.session.save((err) => {
+          if (err) {
+            console.error('Error guardando sesión:', err);
+            reject(err);
+          }
+          console.log('Sesión guardada correctamente');
+          console.log('Usuario en sesión:', req.user);
+          console.log('ID de sesión:', req.sessionID);
+          resolve();
+        });
       });
+
+      // Enviar respuesta sin la contraseña
+      const userResponse = { ...user };
+      delete userResponse.password;
+      
+      console.log('Enviando respuesta al cliente');
+      return res.status(200).json(userResponse);
     } catch (error) {
       console.error('Error en el proceso de login:', error);
       return res.status(500).json({ message: 'Error en el proceso de login' });
