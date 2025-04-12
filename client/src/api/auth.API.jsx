@@ -1,7 +1,7 @@
 import axios from "axios";
 axios.defaults.headers.post["Content-Type"] = "application/json";
 
-export const BASE_URL = "http://localhost:5000"; // url del backend
+export const BASE_URL = "https://ifp-tfg.onrender.com"; // url del backend en Render
 
 //trata de registrar el usuario en nuestra API y devuelve la respuesta de la API
 export const register = async (user) => {
