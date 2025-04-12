@@ -9,6 +9,7 @@ import axios from 'axios';
 // Mock axios
 vi.mock('axios');
 
+
 // Mock useNavigate
 const mockNavigate = vi.fn();
 vi.mock('react-router-dom', async () => {
